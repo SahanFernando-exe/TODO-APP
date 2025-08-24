@@ -1,3 +1,3 @@
 # todo_app
 
-A new Flutter project.
+```dart pub get```
