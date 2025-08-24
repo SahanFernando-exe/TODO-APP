@@ -25,6 +25,7 @@ class Task {
     }
   }
   
+  
   // Private validation methods
   bool _isValidTitle(String title) {
     return title.length >= minTitleLength && title.length <= maxTitleLength;
@@ -34,6 +35,7 @@ class Task {
     return description.length >= minDescriptionLength && description.length <= maxDescriptionLength;
   }
   
+
   // Public validation methods for UI to use
   static String? validateTitle(String? title) {
     if (title == null || title.isEmpty) {
