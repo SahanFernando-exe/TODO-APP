@@ -4,26 +4,23 @@ import 'models/TaskManager.dart';
 import 'pages/create_task.dart';
 import 'pages/home_page.dart';
 
-
 void main() {
   runApp(
     // Setup Provider once at the root
     ChangeNotifierProvider(
       create: (context) => TaskManager(),
-      child: MyApp(),
+      child: TodoApp(),
     ),
   );
 }
 
 // App doesn't need to manage state anymore
-class MyApp extends StatelessWidget {
+class TodoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: HomePage(),
-      routes: {
-        '/create': (context) => CreateTaskPage(),
-      },
+      routes: {'/create': (context) => CreateTaskPage()},
     );
   }
 }

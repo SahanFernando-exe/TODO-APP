@@ -1,7 +1,14 @@
-class Task {
+import 'package:hive/hive.dart';
+
+@HiveType(typeId: 0)
+class Task extends HiveObject {
+  @HiveField(0)
   String id;
+  @HiveField(1)
   String title;
+  @HiveField(2)
   String description;
+  @HiveField(3)
   bool isCompleted;
 
   // Validation constants
@@ -60,5 +67,49 @@ class Task {
       return 'Description cannot exceed $maxDescriptionLength characters';
     }
     return null; // Return null if valid
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'complete': isCompleted,
+    };
+  }
+
+  factory Task.fromMap(Map<String, dynamic> map) {
+    bool? complete = map['complete'] is bool ? map['complete'] : null;
+    complete ??= map['complete'] == 1 ? true : false;
+
+    return Task(
+      id: map['id'].toString(),
+      title: map['title'],
+      description: map['description'],
+      isCompleted: complete,
+    );
+  }
+}
+
+class TaskAdapter extends TypeAdapter<Task> {
+  @override
+  int get typeId => 0;
+
+  @override
+  Task read(BinaryReader reader) {
+    return Task(
+      id: reader.read(),
+      title: reader.read(),
+      description: reader.read(),
+      isCompleted: reader.read(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Task obj) {
+    writer.write(obj.id);
+    writer.write(obj.title);
+    writer.write(obj.description);
+    writer.write(obj.isCompleted);
   }
 }

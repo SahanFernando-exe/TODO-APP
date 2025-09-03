@@ -26,24 +26,27 @@ class SQLDataSource implements DataSourceInterface {
     return dataSource;
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'complete': isCompleted,
-    };
+  @override
+  Future<bool> add(Task model) {
+    // TODO: implement add
+    throw UnimplementedError();
   }
 
-  factory Task.fromMap(Map<String, dynamic> map) {
-    bool? complete = map['complete'] is bool ? map['complete'] : null;
-    complete ??= map['complete'] == 1 ? true : false;
+  @override
+  Future<List<Task>> browse() {
+    // TODO: implement browse
+    throw UnimplementedError();
+  }
 
-    return Task(
-      id: map['id'].toString(),
-      title: map['title'],
-      description: map['description'],
-      isCompleted: complete,
-    );
+  @override
+  Future<bool> delete(Task model) {
+    // TODO: implement delete
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> edit(Task model) {
+    // TODO: implement edit
+    throw UnimplementedError();
   }
 }
