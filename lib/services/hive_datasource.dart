@@ -1,7 +1,6 @@
-import 'package:hive/hive.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import '../models/Task.dart';
+import '../models/task.dart';
 import 'datasource_interface.dart';
 
 class HiveDatasource implements DataSourceInterface {
@@ -12,21 +11,30 @@ class HiveDatasource implements DataSourceInterface {
   }
 
   Future Initialise() async {
+    debugPrint('box creation');
     await Hive.initFlutter();
     Hive.registerAdapter(TaskAdapter());
     await Hive.openBox<Task>('tasks');
   }
 
   @override
-  Future<bool> add(Task model) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<bool> add(Task model) async {
+    debugPrint("hive add called");
+    Box<Task> box = await Hive.openBox('tasks');
+    debugPrint("box made");
+    String key = model.id;
+    debugPrint("got key");
+    box.put(key, model);
+    debugPrint("box put");
+    return true;
   }
 
   @override
   Future<List<Task>> browse() async {
-    // TODO: implement browse
-    throw UnimplementedError();
+    debugPrint("browse called");
+    Box<Task> box = Hive.box('tasks');
+    debugPrint("got box");
+    return box.values.toList();
   }
 
   @override

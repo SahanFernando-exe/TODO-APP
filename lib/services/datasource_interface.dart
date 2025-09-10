@@ -1,4 +1,4 @@
-import 'package:todo_app/models/Task.dart';
+import 'package:todo_app/models/task.dart';
 
 abstract class DataSourceInterface {
   Future<List<Task>> browse();

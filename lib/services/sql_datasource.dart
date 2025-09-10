@@ -1,5 +1,4 @@
-import 'package:flutter/widgets.dart';
-import 'package:todo_app/models/Task.dart';
+import 'package:todo_app/models/task.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

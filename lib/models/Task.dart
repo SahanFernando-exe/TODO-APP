@@ -13,9 +13,9 @@ class Task extends HiveObject {
 
   // Validation constants
   static const int minTitleLength = 1;
-  static const int maxTitleLength = 10;
+  static const int maxTitleLength = 15;
   static const int minDescriptionLength = 0;
-  static const int maxDescriptionLength = 20;
+  static const int maxDescriptionLength = 50;
 
   Task({
     required this.id,
