@@ -9,6 +9,10 @@ class TaskManager with ChangeNotifier {
 
   List<Task> get tasks => _tasks;
 
+  TaskManager() {
+    refreshTasks();
+  }
+
   void refreshTasks() async {
     _tasks = await _hive_db.browse();
     notifyListeners();
@@ -19,12 +23,13 @@ class TaskManager with ChangeNotifier {
     refreshTasks();
   }
 
-  void updateTask(Task updatedTask) {
-    // TODO: call db.edit() and refresh()
-    final index = _tasks.indexWhere((task) => task.id == updatedTask.id);
-    if (index != -1) {
-      _tasks[index] = updatedTask;
-      notifyListeners(); // Tell widgets to update
-    }
+  void updateTask(Task updatedTask) async {
+    await _hive_db.edit(updatedTask);
+    refreshTasks();
+  }
+
+  void deleteTask(Task task) async {
+    await _hive_db.delete(task);
+    refreshTasks();
   }
 }

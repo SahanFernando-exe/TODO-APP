@@ -38,14 +38,15 @@ class HiveDatasource implements DataSourceInterface {
   }
 
   @override
-  Future<bool> delete(Task model) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<bool> delete(Task model) async {
+    Box<Task> box = await Hive.openBox('tasks');
+    box.delete(model.id);
+    return true;
   }
 
   @override
-  Future<bool> edit(Task model) {
-    // TODO: implement edit
-    throw UnimplementedError();
+  Future<bool> edit(Task model) async {
+    add(model);
+    return true;
   }
 }
