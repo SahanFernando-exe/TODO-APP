@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'task.dart';
 import '../services/datasource_interface.dart';
-import '../services/hive_datasource.dart';
 
+//state model
 class TaskManager with ChangeNotifier {
   static List<Task> _tasks = <Task>[];
-  final DataSourceInterface _hive_db = HiveDatasource();
 
   List<Task> get tasks => _tasks;
 
@@ -14,22 +14,27 @@ class TaskManager with ChangeNotifier {
   }
 
   void refreshTasks() async {
-    _tasks = await _hive_db.browse();
+    debugPrint('refreshing....');
+    DataSourceInterface _db = Get.find();
+    _tasks = await _db.browse();
     notifyListeners();
   }
 
   void addTask(Task task) async {
-    await _hive_db.add(task);
+    DataSourceInterface _db = Get.find();
+    await _db.add(task);
     refreshTasks();
   }
 
   void updateTask(Task updatedTask) async {
-    await _hive_db.edit(updatedTask);
+    DataSourceInterface _db = Get.find();
+    await _db.edit(updatedTask);
     refreshTasks();
   }
 
   void deleteTask(Task task) async {
-    await _hive_db.delete(task);
+    DataSourceInterface _db = Get.find();
+    await _db.delete(task);
     refreshTasks();
   }
 }

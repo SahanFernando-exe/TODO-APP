@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 @HiveType(typeId: 0)
@@ -72,7 +73,7 @@ class Task extends HiveObject {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'title': title,
+      'name': title,
       'description': description,
       'complete': isCompleted,
     };
@@ -84,7 +85,7 @@ class Task extends HiveObject {
 
     return Task(
       id: map['id'].toString(),
-      title: map['title'],
+      title: map['name'],
       description: map['description'],
       isCompleted: complete,
     );
