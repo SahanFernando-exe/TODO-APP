@@ -15,7 +15,6 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Get access to TaskManager without watching for changes
     final taskManager = context.read<TaskManager>();
 
     return Scaffold(
@@ -32,7 +31,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
               ),
               onChanged: (value) {
                 setState(() {});
-              }, // Rebuild to show validation errors
+              },
             ),
 
             TextField(
@@ -45,12 +44,11 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
               ),
               onChanged: (value) {
                 setState(() {});
-              }, // Rebuild to show validation errors
+              },
             ),
 
             ElevatedButton(
               onPressed: () {
-                // Add directly through TaskManager
                 taskManager.addTask(
                   Task(
                     id: DateTime.now().toString(),

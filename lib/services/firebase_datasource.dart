@@ -24,43 +24,81 @@ class FirebaseDatasource implements DataSourceInterface {
 
   DatabaseReference get _tasksRef => FirebaseDatabase.instance.ref('todos');
 
+  /// Add
+  /// 
   @override
   Future<bool> add(Task model) async {
-    await _tasksRef.child(model.id).set(model.toMap());
-    return true;
+    debugPrint("add called");
+    try {
+      DatabaseReference newTaskRef = _tasksRef.push();
+      model.id = newTaskRef.key.toString(); 
+      Map<String, dynamic> data = model.toMap();
+      await newTaskRef.set(data);
+      return true;
+    } catch (e) {
+      debugPrint('Error adding task: $e');
+      return false;
+    }
   }
 
+  /// Browse
+  /// 
   @override
   Future<List<Task>> browse() async {
     List<Task> results = [];
-    DataSnapshot snapshot = await _tasksRef.get();
+    try{
+      DataSnapshot snapshot = await _tasksRef.get();
 
-    if (!snapshot.exists) {
-      throw Exception(
-        'Invalid Request - Cannot find snapshot: ${snapshot.ref}',
-      );
+      if (!snapshot.exists) {
+        throw Exception(
+          'Invalid Request - Cannot find snapshot at: ${snapshot.ref.path}',
+        );
+      }
+
+      (snapshot.value as Map).values
+          .map((e) => (Map<String, dynamic>.from(e)))
+          .forEach((item) {
+            debugPrint(item.toString());
+            Task task = Task.fromMap(item);
+            results.add(task);
+          });
+
+    } catch (e) {
+      debugPrint('Error browsing tasks: $e');
     }
-
-    (snapshot.value as Map).values
-        .map((e) => (Map<String, dynamic>.from(e)))
-        .forEach((item) {
-          debugPrint(item.toString());
-          Task task = Task.fromMap(item);
-          results.add(task);
-        });
-
     return results;
   }
 
+  /// Delete
+  /// 
   @override
-  Future<bool> delete(Task model) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<bool> delete(Task model) async {
+    //emergencyFix();
+    debugPrint("delete called");
+    String? key = _tasksRef.child(model.id).key;
+    debugPrint(model.id);
+    debugPrint(key);
+    try {
+      await _tasksRef.child(model.id).remove();
+      return true;
+    } catch (e) {
+      debugPrint('Error deleting task: $e');
+      return false;
+    }
   }
 
+  /// Edit
+  /// 
   @override
-  Future<bool> edit(Task model) {
-    // TODO: implement edit
-    throw UnimplementedError();
+  Future<bool> edit(Task model) async {
+    debugPrint("edit called");
+    try {
+      Map<String, dynamic> data = model.toMap();
+      await _tasksRef.child(model.id).update(data);
+      return true;
+    } catch (e) {
+      debugPrint('Error editting task: $e');
+      return false;
+    }
   }
 }

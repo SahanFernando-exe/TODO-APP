@@ -15,26 +15,26 @@ class TaskManager with ChangeNotifier {
 
   void refreshTasks() async {
     debugPrint('refreshing....');
-    DataSourceInterface _db = Get.find();
-    _tasks = await _db.browse();
+    DataSourceInterface db = Get.find();
+    _tasks = await db.browse();
     notifyListeners();
   }
 
   void addTask(Task task) async {
-    DataSourceInterface _db = Get.find();
-    await _db.add(task);
+    DataSourceInterface db = Get.find();
+    await db.add(task);
     refreshTasks();
   }
 
   void updateTask(Task updatedTask) async {
-    DataSourceInterface _db = Get.find();
-    await _db.edit(updatedTask);
+    DataSourceInterface db = Get.find();
+    await db.edit(updatedTask);
     refreshTasks();
   }
 
   void deleteTask(Task task) async {
-    DataSourceInterface _db = Get.find();
-    await _db.delete(task);
+    DataSourceInterface db = Get.find();
+    await db.delete(task);
     refreshTasks();
   }
 }
