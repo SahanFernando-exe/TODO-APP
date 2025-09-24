@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/services/sql_datasource.dart';
 import 'package:todo_app/services/hive_datasource.dart';
 import 'package:todo_app/services/firebase_datasource.dart';
 import './services/datasource_interface.dart';
@@ -11,7 +12,7 @@ import 'pages/home_page.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Get.putAsync<DataSourceInterface>(
-    () => FirebaseDatasource.createAsync(),
+    () => SQLDatasource.createAsync(),
   ).whenComplete(
     () => runApp(
       // Setup Provider once at the root

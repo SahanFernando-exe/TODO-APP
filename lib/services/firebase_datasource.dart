@@ -25,13 +25,13 @@ class FirebaseDatasource implements DataSourceInterface {
   DatabaseReference get _tasksRef => FirebaseDatabase.instance.ref('todos');
 
   /// Add
-  /// 
+  ///
   @override
   Future<bool> add(Task model) async {
     debugPrint("add called");
     try {
       DatabaseReference newTaskRef = _tasksRef.push();
-      model.id = newTaskRef.key.toString(); 
+      model.id = newTaskRef.key.toString();
       Map<String, dynamic> data = model.toMap();
       await newTaskRef.set(data);
       return true;
@@ -42,11 +42,11 @@ class FirebaseDatasource implements DataSourceInterface {
   }
 
   /// Browse
-  /// 
+  ///
   @override
   Future<List<Task>> browse() async {
     List<Task> results = [];
-    try{
+    try {
       DataSnapshot snapshot = await _tasksRef.get();
 
       if (!snapshot.exists) {
@@ -62,7 +62,6 @@ class FirebaseDatasource implements DataSourceInterface {
             Task task = Task.fromMap(item);
             results.add(task);
           });
-
     } catch (e) {
       debugPrint('Error browsing tasks: $e');
     }
@@ -70,7 +69,7 @@ class FirebaseDatasource implements DataSourceInterface {
   }
 
   /// Delete
-  /// 
+  ///
   @override
   Future<bool> delete(Task model) async {
     //emergencyFix();
@@ -88,7 +87,7 @@ class FirebaseDatasource implements DataSourceInterface {
   }
 
   /// Edit
-  /// 
+  ///
   @override
   Future<bool> edit(Task model) async {
     debugPrint("edit called");
