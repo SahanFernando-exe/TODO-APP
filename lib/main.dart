@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/services/sql_datasource.dart';
-import 'package:todo_app/services/hive_datasource.dart';
-import 'package:todo_app/services/firebase_datasource.dart';
+import 'package:todo_app/services/service_manager.dart';
 import './services/datasource_interface.dart';
 import 'models/task_manager.dart';
 import 'pages/create_task.dart';
@@ -12,7 +10,7 @@ import 'pages/home_page.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Get.putAsync<DataSourceInterface>(
-    () => SQLDatasource.createAsync(),
+    () async => DataServiceManager.createAsync(),
   ).whenComplete(
     () => runApp(
       // Setup Provider once at the root
@@ -24,7 +22,6 @@ void main() {
   );
 }
 
-// App doesn't need to manage state anymore
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
 

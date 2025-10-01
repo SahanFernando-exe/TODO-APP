@@ -36,7 +36,7 @@ class FirebaseDatasource implements DataSourceInterface {
       await newTaskRef.set(data);
       return true;
     } catch (e) {
-      debugPrint('Error adding task: $e');
+      debugPrint('Firebase - Error adding task: $e');
       return false;
     }
   }
@@ -63,7 +63,7 @@ class FirebaseDatasource implements DataSourceInterface {
             results.add(task);
           });
     } catch (e) {
-      debugPrint('Error browsing tasks: $e');
+      debugPrint('Firebase - Error browsing tasks: $e');
     }
     return results;
   }
@@ -81,7 +81,7 @@ class FirebaseDatasource implements DataSourceInterface {
       await _tasksRef.child(model.id).remove();
       return true;
     } catch (e) {
-      debugPrint('Error deleting task: $e');
+      debugPrint('Firebase - Error deleting task: $e');
       return false;
     }
   }
@@ -96,7 +96,7 @@ class FirebaseDatasource implements DataSourceInterface {
       await _tasksRef.child(model.id).update(data);
       return true;
     } catch (e) {
-      debugPrint('Error editting task: $e');
+      debugPrint('Firebase - Error editting task: $e');
       return false;
     }
   }

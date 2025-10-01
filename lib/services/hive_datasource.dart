@@ -19,34 +19,44 @@ class HiveDatasource implements DataSourceInterface {
 
   @override
   Future<bool> add(Task model) async {
-    debugPrint("hive add called");
-    Box<Task> box = await Hive.openBox('tasks');
-    debugPrint("box made");
-    String key = model.id;
-    debugPrint("got key");
-    box.put(key, model);
-    debugPrint("box put");
-    return true;
+    try {
+      debugPrint("hive add called");
+      Box<Task> box = await Hive.openBox('tasks');
+      String key = model.id;
+      box.put(key, model);
+      return true;
+    } catch (e) {
+      debugPrint('Hive - Error adding task: $e');
+      return false;
+    }
   }
 
   @override
   Future<List<Task>> browse() async {
-    debugPrint("browse called");
+    debugPrint("Hive Browse called");
     Box<Task> box = Hive.box('tasks');
-    debugPrint("got box");
     return box.values.toList();
   }
 
   @override
   Future<bool> delete(Task model) async {
-    Box<Task> box = await Hive.openBox('tasks');
-    box.delete(model.id);
-    return true;
+    try {
+      Box<Task> box = await Hive.openBox('tasks');
+      box.delete(model.id);
+      return true;
+    } catch (e) {
+      debugPrint('Hive - Error deleting task: $e');
+      return false;
+    }
   }
 
   @override
   Future<bool> edit(Task model) async {
-    add(model);
-    return true;
+    List list = await browse();
+    if (list.contains(model)) {
+      add(model);
+      return true;
+    }
+    return false;
   }
 }
