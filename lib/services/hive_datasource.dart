@@ -52,11 +52,13 @@ class HiveDatasource implements DataSourceInterface {
 
   @override
   Future<bool> edit(Task model) async {
+    debugPrint("hive edit");
     List list = await browse();
-    if (list.contains(model)) {
-      add(model);
-      return true;
-    }
-    return false;
+    list.forEach((object) {
+      if (object.id == model.id) {
+        add(model);
+      }
+    });
+    return true;
   }
 }
