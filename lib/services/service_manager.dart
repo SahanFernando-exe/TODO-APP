@@ -5,7 +5,7 @@ import 'package:todo_app/services/sql_datasource.dart';
 import 'package:todo_app/services/hive_datasource.dart';
 import 'package:todo_app/services/firebase_datasource.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'dart:html' as html;
+//import 'dart:html' as html;
 
 class DataServiceManager implements DataSourceInterface {
   late final tododatasource_local;
@@ -31,8 +31,9 @@ class DataServiceManager implements DataSourceInterface {
   }
 
   Future<bool> _isConnected() async {
-    if ((kIsWeb && html.window.navigator.onLine == false)
-      || await Connectivity().checkConnectivity() == ConnectivityResult.none) {
+    // if ((kIsWeb && html.window.navigator.onLine == false) ||
+    List list = await Connectivity().checkConnectivity();
+    if ((kIsWeb) || (list.contains(ConnectivityResult.none))) {
       return false;
     }
     return true;
@@ -47,11 +48,10 @@ class DataServiceManager implements DataSourceInterface {
 
   @override
   Future<List<Task>> browse() async {
-    if(await _isConnected()){
+    if (await _isConnected()) {
       return await tododatasource_remote.browse();
     }
     return await tododatasource_local.browse();
-        
   }
 
   @override

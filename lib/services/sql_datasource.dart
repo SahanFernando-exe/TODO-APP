@@ -32,7 +32,7 @@ class SQLDatasource implements DataSourceInterface {
   Future<bool> add(Task model) async {
     int complete = model.isCompleted ? 1 : 0;
     _database.execute(
-      "INSERT INTO tasks (name, description, complete) VALUES ('${model.title}', '${model.description}', ${complete});",
+      "INSERT INTO tasks (name, description, complete) VALUES ('${model.title}', '${model.description}', $complete);",
     );
     return true;
   }
@@ -59,7 +59,7 @@ class SQLDatasource implements DataSourceInterface {
   Future<bool> edit(Task model) async {
     int complete = model.isCompleted ? 1 : 0;
     _database.execute(
-      "UPDATE tasks SET name = '${model.title}', description = '${model.description}', complete = ${complete} WHERE id = ${model.id};",
+      "UPDATE tasks SET name = '${model.title}', description = '${model.description}', complete = $complete WHERE id = ${model.id};",
     );
     return true;
   }
